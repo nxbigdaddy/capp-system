@@ -1,0 +1,42 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - .:/app
+    environment:
+      APP_ENV: test
+      APP_DEBUG: "false"
+      APP_URL: http://localhost:8080
+      APP_KEY: 0123456789abcdef0123456789abcdef
+      APP_ALLOWED_ORIGINS: http://localhost:8080
+      SESSION_NAME: capp_session
+      DB_DRIVER: mysql
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_NAME: capp_test
+      DB_USER: capp
+      DB_PASS: capp_test
+    command: ["sleep", "infinity"]
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: capp_test
+      MYSQL_USER: capp
+      MYSQL_PASSWORD: YOUR_PASSWORD
+      MYSQL_ROOT_PASSWORD: YOUR_PASSWORD
+    ports:
+      - "33060:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:

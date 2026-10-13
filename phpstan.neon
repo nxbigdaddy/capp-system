@@ -1,0 +1,15 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - public
+        - tests
+    tmpDir: .phpstan-cache
+    excludePaths:
+        analyse:
+            - src/Api
+            - src/Core
+            - src/Mobile
+            - src/Modules
+            - src/Utils
+            - src/config
